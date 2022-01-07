@@ -22,4 +22,25 @@ describe('UpbitService', () => {
       console.log(markets);
     });
   });
+
+  describe('getPriceReceiver', () => {
+    it('동작 테스트', async (done) => {
+      const msg =
+        '[{"ticket":"UNIQUE_TICKET"},{"type":"trade","codes":["KRW-BTC","BTC-XRP"]}]';
+
+      const { open, close, afterReceive } = service.getPriceReceiver(msg);
+
+      open(() => {
+        return;
+      });
+      close(() => {
+        return;
+      });
+      afterReceive((data) => {
+        console.log(data.toString('utf-8'));
+      });
+
+      done;
+    });
+  });
 });

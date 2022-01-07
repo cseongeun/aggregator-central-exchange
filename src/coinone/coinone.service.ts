@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { Axios } from 'axios';
 import { CentralExchangeBase } from '../central-exchange.base';
-import { API_BASE_URI, API_LIST } from './coinone.constant';
+import { HTTP_API_LIST, HTTP_BASE_URI } from './coinone.constant';
 
 @Injectable()
 export class CoinoneService extends CentralExchangeBase {
@@ -11,12 +11,12 @@ export class CoinoneService extends CentralExchangeBase {
     super();
 
     this.api = axios.create({
-      baseURL: API_BASE_URI,
+      baseURL: HTTP_BASE_URI,
     });
   }
 
   async fetchMarket(): Promise<{ base: string; quote: string }[]> {
-    const response = await this.api.get(API_LIST.FETCH_MARKET, {
+    const response = await this.api.get(HTTP_API_LIST.FETCH_MARKET, {
       params: { currency: 'all' },
     });
 

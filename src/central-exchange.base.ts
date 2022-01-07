@@ -17,4 +17,6 @@ export abstract class CentralExchangeBase {
       quote: string;
     }[]
   >;
+
+  abstract getPriceReceiver(msg: string): { open; close; afterReceive };
 }

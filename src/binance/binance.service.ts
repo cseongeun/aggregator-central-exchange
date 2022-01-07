@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { Axios } from 'axios';
 import { CentralExchangeBase } from '../central-exchange.base';
-import { API_BASE_URI, API_LIST } from '../binance/binance.constant';
+import { HTTP_API_LIST, HTTP_BASE_URI } from '../binance/binance.constant';
 
 @Injectable()
 export class BinanceService extends CentralExchangeBase {
@@ -11,12 +11,12 @@ export class BinanceService extends CentralExchangeBase {
     super();
 
     this.api = axios.create({
-      baseURL: API_BASE_URI,
+      baseURL: HTTP_BASE_URI,
     });
   }
 
   async fetchMarket(): Promise<any> {
-    const response = await this.api.get(API_LIST.FETCH_MARKET);
+    const response = await this.api.get(HTTP_API_LIST.FETCH_MARKET);
     return response?.data.symbols.map(
       ({
         baseAsset,
