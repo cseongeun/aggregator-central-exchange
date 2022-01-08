@@ -7,5 +7,5 @@ export const HTTP_API_LIST = {
 };
 
 export const WSS_API_LIST = {
-  RECEIVE_PRICE: '',
+  STREAM_PRICE: '',
 };

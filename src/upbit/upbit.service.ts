@@ -29,8 +29,8 @@ export class UpbitService extends CentralExchangeBase {
     });
   }
 
-  getPriceReceiver(sendMsg: string): { open; close; afterReceive } {
-    const ws = new WebSocket(`${WSS_BASE_URI}${WSS_API_LIST.RECEIVE_PRICE}`);
+  getPriceStreamer(sendMsg?: string): { open; close; stream } {
+    const ws = new WebSocket(`${WSS_BASE_URI}${WSS_API_LIST.STREAM_PRICE}`);
 
     const open = (callback) =>
       ws.on('open', () => {
@@ -43,12 +43,30 @@ export class UpbitService extends CentralExchangeBase {
         callback();
       });
 
-    const afterReceive = (callback) =>
-      // ref data: {"type":"trade","code":"KRW-BTC","timestamp":1641575603425,"trade_date":"2022-01-07","trade_time":"17:13:23","trade_timestamp":1641575603000,"trade_price":51867000.0,"trade_volume":0.00418801,"ask_bid":"ASK","prev_closing_price":53239000.00000000,"change":"FALL","change_price":1372000.00000000,"sequential_id":1641575603000000,"stream_type":"REALTIME"}
+    const stream = (callback) =>
+      /**
+       *  {
+       *    "type": "trade",
+       *    "code": "KRW-BTC",
+       *    "timestamp": 1641575603425,
+       *    "trade_date": "2022-01-07",
+       *    "trade_time": "17:13:23",
+       *    "trade_timestamp": 1641575603000,
+       *    "trade_price": 51867000,
+       *    "trade_volume": 0.00418801,
+       *    "ask_bid": "ASK",
+       *    "prev_closing_price": 53239000,
+       *    "change": "FALL",
+       *    "change_price": 1372000,
+       *    "sequential_id": 1641575603000000,
+       *    "stream_type": "REALTIME"
+       *  }
+       *
+       **/
       ws.on('message', (data: Buffer) => {
         callback(data);
       });
 
-    return { open, close, afterReceive };
+    return { open, close, stream };
   }
 }

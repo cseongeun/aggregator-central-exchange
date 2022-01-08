@@ -22,4 +22,21 @@ describe('BinanceService', () => {
       console.log(markets);
     });
   });
+  describe('getPriceReceiver', () => {
+    it('동작 테스트', async (done) => {
+      const { open, close, stream } = service.getPriceStreamer();
+
+      open(() => {
+        return;
+      });
+      close(() => {
+        return;
+      });
+      stream((data) => {
+        console.log(JSON.parse(data));
+      });
+
+      done;
+    });
+  });
 });

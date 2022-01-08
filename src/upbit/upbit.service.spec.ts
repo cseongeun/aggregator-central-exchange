@@ -28,7 +28,7 @@ describe('UpbitService', () => {
       const msg =
         '[{"ticket":"UNIQUE_TICKET"},{"type":"trade","codes":["KRW-BTC","BTC-XRP"]}]';
 
-      const { open, close, afterReceive } = service.getPriceReceiver(msg);
+      const { open, close, stream } = service.getPriceStreamer(msg);
 
       open(() => {
         return;
@@ -36,7 +36,7 @@ describe('UpbitService', () => {
       close(() => {
         return;
       });
-      afterReceive((data) => {
+      stream((data) => {
         console.log(data.toString('utf-8'));
       });
 

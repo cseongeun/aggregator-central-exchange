@@ -18,5 +18,5 @@ export abstract class CentralExchangeBase {
     }[]
   >;
 
-  abstract getPriceReceiver(msg: string): { open; close; afterReceive };
+  abstract getPriceStreamer(msg?: string): { open; close; stream };
 }

@@ -30,4 +30,8 @@ export class CoinoneService extends CentralExchangeBase {
       return { base: base.toUpperCase(), quote: 'KRW' };
     });
   }
+
+  getPriceStreamer(msg?: string): { open: any; close: any; stream: any } {
+    throw new Error('Method not implemented.');
+  }
 }
