@@ -16,9 +16,7 @@ export class UpbitService extends CentralExchangeBase {
   constructor() {
     super();
 
-    this.api = axios.create({
-      baseURL: HTTP_BASE_URI,
-    });
+    this.api = axios.create();
   }
 
   async fetchMarket(): Promise<{ base: string; quote: string }[]> {
