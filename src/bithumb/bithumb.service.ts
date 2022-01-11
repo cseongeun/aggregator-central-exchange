@@ -2,29 +2,18 @@ import { Injectable } from '@nestjs/common';
 import * as WebSocket from 'ws';
 import axios, { Axios } from 'axios';
 import { CentralExchangeBase } from '../central-exchange.base';
-import {
-  HTTP_API_LIST,
-  HTTP_BASE_URI,
-  WSS_API_LIST,
-  WSS_BASE_URI,
-} from './bithumb.constant';
+import { HTTP_API, WSS_API } from './bithumb.constant';
 
 @Injectable()
 export class BithumbService extends CentralExchangeBase {
-  api: Axios;
-
   constructor() {
     super();
-
-    this.api = axios.create({
-      baseURL: HTTP_BASE_URI,
-    });
   }
 
   async fetchMarket(): Promise<any> {
     const [krwRes, btcRes] = await Promise.all([
-      this.api.get(`${HTTP_API_LIST.FETCH_MARKET}_KRW`),
-      this.api.get(`${HTTP_API_LIST.FETCH_MARKET}_BTC`),
+      axios.get(`${HTTP_API.FETCH_MARKET}_KRW`),
+      axios.get(`${HTTP_API.FETCH_MARKET}_BTC`),
     ]);
 
     const parseKRWRes = krwRes?.data.data;
@@ -45,7 +34,7 @@ export class BithumbService extends CentralExchangeBase {
   }
 
   getPriceStreamer(msg?: string): { open: any; close: any; stream: any } {
-    const ws = new WebSocket(`${WSS_BASE_URI}${WSS_API_LIST.STREAM_PRICE}`);
+    const ws = new WebSocket(`${WSS_API.STREAM_PRICE}`);
 
     const open = (callback) =>
       ws.on('open', () => {

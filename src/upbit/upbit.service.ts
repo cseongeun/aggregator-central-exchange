@@ -1,26 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import * as WebSocket from 'ws';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { CentralExchangeBase } from '../central-exchange.base';
-import {
-  HTTP_API_LIST,
-  HTTP_BASE_URI,
-  WSS_API_LIST,
-  WSS_BASE_URI,
-} from './upbit.constant';
+import { HTTP_API, WSS_API } from './upbit.constant';
 
 @Injectable()
 export class UpbitService extends CentralExchangeBase {
-  api: Axios;
-
   constructor() {
     super();
-
-    this.api = axios.create();
   }
 
   async fetchMarket(): Promise<{ base: string; quote: string }[]> {
-    const response = await this.api.get(HTTP_API_LIST.FETCH_MARKET);
+    const response = await axios.get(HTTP_API.FETCH_MARKET);
     return response?.data.map(({ market }: { market: string }) => {
       const [quote, base] = market.split('-');
       return { base: base.toUpperCase(), quote: quote.toUpperCase() };
@@ -28,7 +19,7 @@ export class UpbitService extends CentralExchangeBase {
   }
 
   getPriceStreamer(sendMsg?: string): { open; close; stream } {
-    const ws = new WebSocket(`${WSS_BASE_URI}${WSS_API_LIST.STREAM_PRICE}`);
+    const ws = new WebSocket(`${WSS_API.STREAM_PRICE}`);
 
     const open = (callback) =>
       ws.on('open', () => {
